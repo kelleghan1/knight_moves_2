@@ -1,7 +1,23 @@
-import React, { ReactNode } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { Header } from './header/Header'
+import { KnightMovesStyles } from './KnightMovesStyles'
+import { Menu } from './menu/Menu'
 
-export const KnightMoves = (): ReactNode => {
+const KnightMovesStyled = styled.div`${KnightMovesStyles}`
+
+export const KnightMoves: FunctionComponent = () => {
+  const [ activeCoords, setActiveCoords ] = useState(null)
+
+  useEffect(() => {
+    console.log('ACTIVE', activeCoords)
+  },
+  [ activeCoords ]
+  )
   return (
-    <div>{'react setup from scratch without cra testing ts'}</div>
+    <KnightMovesStyled>
+      <Header />
+      <Menu onCoordsSelect={setActiveCoords}/>
+    </KnightMovesStyled>
   )
 }

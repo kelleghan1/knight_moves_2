@@ -24,7 +24,27 @@
     "eslint-plugin-import"
   ],
   "rules": {
+    "react/jsx-closing-tag-location": [1],
+    "react/jsx-closing-bracket-location": [1],
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }],
+    "react/jsx-first-prop-new-line": [
+      1,
+      "multiline"
+    ],
+    "react/jsx-max-props-per-line": [1],
+    "array-bracket-spacing": [
+      "error",
+      "always", 
+      {
+        "objectsInArrays": false,
+        "arraysInArrays": false
+      }
+    ],
     "react/prop-types": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off"
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/indent": ["error", 2]
   }
 }
