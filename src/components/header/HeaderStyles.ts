@@ -8,6 +8,7 @@ export const HeaderStyles = css`
   .logo-wrapper {
     display: inline-block;
     width: 100px;
+    height: 100px;
     flex-shrink: 1;
 
     img {

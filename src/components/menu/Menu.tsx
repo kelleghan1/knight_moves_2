@@ -3,12 +3,14 @@ import React,
   ChangeEventHandler,
   FunctionComponent,
   MouseEventHandler,
+  useEffect,
   useState
 } from 'react'
 import styled from 'styled-components'
 import {
-  Coords,
-  HandleCoordsSelect
+  CoordsType,
+  HandleCoordsSelectType,
+  QuadrantSizeEnumType
 } from '../../types/common'
 import {
   trueVal,
@@ -21,18 +23,37 @@ import { MenuStyles } from './MenuStyles'
 const MenuStyled = styled.form`${MenuStyles}`
 
 interface MenuPropsType {
-  onCoordsSelect: HandleCoordsSelect
-  activeCoords?: Coords
-  activeCount?: number
+  onCoordsSelect: HandleCoordsSelectType
+  destinationCoords?: CoordsType
+  turnsTaken?: CoordsType[]
+  quadrantSize: QuadrantSizeEnumType
 }
 
 export const Menu: FunctionComponent<MenuPropsType> = ({
   onCoordsSelect,
-  activeCoords,
-  activeCount
+  destinationCoords,
+  turnsTaken,
+  quadrantSize
 }) => {
   const [ x, setX ] = useState('')
   const [ y, setY ] = useState('')
+
+  useEffect(
+    () => {
+      if (
+        trueVal(destinationCoords?.x) &&
+        trueVal(destinationCoords?.y) &&
+        (
+          `${destinationCoords.y}` !== y ||
+          `${destinationCoords.x}` !== x
+        )
+      ) {
+        setX(`${destinationCoords.x}`)
+        setY(`${destinationCoords.y}`)
+      }
+    },
+    [ destinationCoords ]
+  )
 
   const validateCoordString = (coordString: string): boolean => (
     coordString === '' ||
@@ -78,8 +99,16 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
 
   const validateCoordInputs = (): boolean => (
     validateStringNumber(x) &&
-    validateStringNumber(y)
+    validateStringNumber(y) &&
+    Math.abs(parseInt(x)) <= quadrantSize &&
+    Math.abs(parseInt(y)) <= quadrantSize
   )
+
+  const renderTurnCount = (): string => {
+    const turnCount = turnsTaken?.length ? `${turnsTaken.length - 1}` : '--'
+
+    return turnCount
+  }
 
   return (
     <MenuStyled>
@@ -125,7 +154,7 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
       <div className='turn-count-wrapper'>
         <label>Turns:</label>
         <div className='turn-count-value'>
-          {activeCount || '--'}
+          { renderTurnCount() }
         </div>
       </div>
     </MenuStyled>

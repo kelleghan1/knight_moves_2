@@ -17,6 +17,29 @@ export const SquareStyles = css`
 
   &.grey {
     background-color: #e2e2e2;
+
+    .square-coords {
+      background-color: #e2e2e2;
+    }
+  }
+
+  &.highlighted {
+    background-color: #00ddff;
+    
+    .square-coords {
+      background-color: #00ddff;
+    }
+  }
+
+  &:hover {
+    .square-coords {
+      position: absolute;
+      font-size: 8px;
+      transform: scale(2);
+      min-width: 20px;
+      min-height: 20px;
+      border: 1px solid black;
+    }
   }
 
   .square-coords {
@@ -25,19 +48,6 @@ export const SquareStyles = css`
     background-color: #fff;
     padding: 2px;
     box-sizing: border-box;
-
-    &.grey {
-      background-color: #e2e2e2;
-    }
-
-    &:hover {
-      position: absolute;
-      font-size: 8px;
-      transform: scale(2);
-      min-width: 20px;
-      min-height: 20px;
-      border: 1px solid black;
-    }
   }
 
   @media (max-width: 700px) {

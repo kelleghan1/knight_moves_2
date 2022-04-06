@@ -4,4 +4,4 @@ import { KnightMoves } from './components/KnightMoves'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-root.render(<KnightMoves quadrantSize={14}/>)
+root.render(<KnightMoves quadrantSize={15}/>)

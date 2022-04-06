@@ -1,43 +1,55 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import {
-  Coords,
-  HandleCoordsSelect
+  CoordsType,
+  HandleCoordsSelectType
 } from '../../types/common'
 import { SquareStyles } from './SquareStyles'
 
 const SquareStyled = styled.div`${SquareStyles}`
 
 interface SquarePropsType {
-  onCoordsSelect: HandleCoordsSelect
-  activeCoords?: Coords
+  onCoordsSelect: HandleCoordsSelectType
+  activeCoords?: CoordsType
   xCoord: number
   yCoord: number
   isGrey: boolean
+  isHighlighted: boolean
 }
 
 export const Square: FunctionComponent<SquarePropsType> = ({
   xCoord,
   yCoord,
   isGrey,
-  onCoordsSelect
-}) => {
-  let className = 'square-coords'
+  onCoordsSelect,
+  isHighlighted
+}) => useMemo(
+  () => {
+    let className = ''
 
-  if (isGrey) className += ' grey'
+    if (isGrey) className += ' grey'
+    if (isHighlighted) className += ' highlighted'
 
-  const handleClick = (): void => {
-    onCoordsSelect({ x: xCoord, y: yCoord })
-  }
+    const handleClick = (): void => {
+      onCoordsSelect({ x: xCoord, y: yCoord })
+    }
 
-  return (
-    <SquareStyled className={className}>
-      <div
+    return (
+      <SquareStyled
         onClick={handleClick}
         className={className}
       >
-        { `${xCoord}/${yCoord}` }
-      </div>
-    </SquareStyled>
-  )
-}
+        <div className={'square-coords'}>
+          { `${xCoord}/${yCoord}` }
+        </div>
+      </SquareStyled>
+    )
+  },
+  [
+    xCoord,
+    yCoord,
+    isGrey,
+    onCoordsSelect,
+    isHighlighted
+  ]
+)

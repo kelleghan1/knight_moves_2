@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Coords } from '../types/common'
+import { CoordsType, QuadrantSizeEnumType } from '../types/common'
 import { Board } from './board/Board'
 import { Header } from './header/Header'
 import { KnightMovesStyles } from './KnightMovesStyles'
@@ -9,12 +9,12 @@ import { Menu } from './menu/Menu'
 const KnightMovesStyled = styled.div`${KnightMovesStyles}`
 
 interface KnightMovesPropsType {
-  quadrantSize: number
+  quadrantSize: QuadrantSizeEnumType
 }
 
 export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantSize }) => {
   const [ destinationCoords, setDestinationCoords ] = useState(null)
-  const [ turnsTaken, setTurnsTaken ] = useState(null)
+  const [ turnsTaken, setTurnsTaken ] = useState([])
 
   const moves = [
     { x: 1, y: 2 },
@@ -33,7 +33,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
       const turnsTaken = [ destinationCoords ]
 
-      const start = (d: Coords): void => {
+      const start = (d: CoordsType): void => {
         const possibleMoves = []
         const closestArr = []
         let closest = null
@@ -118,7 +118,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
       start(destinationCoords)
 
-      console.log('@@@@@@', turnsTaken)
+      setTurnsTaken(turnsTaken)
     },
     [ destinationCoords ]
   )
@@ -126,8 +126,14 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
   return (
     <KnightMovesStyled>
       <Header />
-      <Menu onCoordsSelect={setDestinationCoords} />
+      <Menu
+        quadrantSize={quadrantSize}
+        destinationCoords={destinationCoords}
+        turnsTaken={turnsTaken}
+        onCoordsSelect={setDestinationCoords}
+      />
       <Board
+        turnsTaken={turnsTaken}
         quadrantSize={quadrantSize}
         onCoordsSelect={setDestinationCoords}
       />
