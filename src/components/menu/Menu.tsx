@@ -1,7 +1,21 @@
-import React, { ChangeEventHandler, FunctionComponent, MouseEventHandler, useState } from 'react'
+import React,
+{
+  ChangeEventHandler,
+  FunctionComponent,
+  MouseEventHandler,
+  useState
+} from 'react'
 import styled from 'styled-components'
-import { Coords, HandleCoordsSelect } from '../../types/common'
-import { trueVal, validateNumber, validateStringNumberInput, validateStringNumber } from '../../utils/helpers'
+import {
+  Coords,
+  HandleCoordsSelect
+} from '../../types/common'
+import {
+  trueVal,
+  validateNumber,
+  validateStringNumberInput,
+  validateStringNumber
+} from '../../utils/helpers'
 import { MenuStyles } from './MenuStyles'
 
 const MenuStyled = styled.form`${MenuStyles}`
@@ -62,16 +76,10 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
     }
   }
 
-  const validateCoordInputs = (): boolean => {
-    console.log(
-      validateStringNumber(x) &&
-      validateStringNumber(y)
-    )
-    return (
-      validateStringNumber(x) &&
-      validateStringNumber(y)
-    )
-  }
+  const validateCoordInputs = (): boolean => (
+    validateStringNumber(x) &&
+    validateStringNumber(y)
+  )
 
   return (
     <MenuStyled>
