@@ -29,6 +29,7 @@ interface MenuPropsType {
   turnsTaken?: CoordsType[]
   onClearTurnsTakenClick: SetTurnsTakenType
   quadrantSize: QuadrantSizeEnumType
+  isMoving: boolean
 }
 
 export const Menu: FunctionComponent<MenuPropsType> = ({
@@ -36,7 +37,8 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
   destinationCoords,
   turnsTaken,
   quadrantSize,
-  onClearTurnsTakenClick
+  onClearTurnsTakenClick,
+  isMoving
 }) => {
   const [ x, setX ] = useState('')
   const [ y, setY ] = useState('')
@@ -156,7 +158,7 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
       </div>
       <div className='coord-button-wrapper'>
         <button
-          disabled={!validateCoordInputs()}
+          disabled={!validateCoordInputs() || isMoving}
           onClick={handleCoordSubmit}
           type='submit'
         >

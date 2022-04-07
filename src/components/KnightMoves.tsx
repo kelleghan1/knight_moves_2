@@ -15,6 +15,7 @@ interface KnightMovesPropsType {
 export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantSize }) => {
   const [ destinationCoords, setDestinationCoords ] = useState(null)
   const [ turnsTaken, setTurnsTaken ] = useState([])
+  const [ isMoving, setIsMoving ] = useState(false)
 
   const knightMoves = [
     { x: 1, y: 2 },
@@ -41,6 +42,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
         () => {
           turnsArray.push(turnsReversed[i])
           setTurnsTaken([ ...turnsArray ])
+          if (i === turnsReversed.length - 1) setIsMoving(false)
         },
         i * 200
       )
@@ -147,6 +149,8 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
     () => {
       if (!destinationCoords) return
 
+      setIsMoving(true)
+
       const turnsTaken = [ destinationCoords ]
 
       calculateNextTurnsRecursively(destinationCoords, turnsTaken)
@@ -156,20 +160,27 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
     [ destinationCoords ]
   )
 
+  const onCoordsSelect = (coords: CoordsType): void => {
+    if (!isMoving) {
+      setDestinationCoords(coords)
+    }
+  }
+
   return (
     <KnightMovesStyled>
       <Header />
       <Menu
+        isMoving={isMoving}
         onClearTurnsTakenClick={setTurnsTaken}
         quadrantSize={quadrantSize}
         destinationCoords={destinationCoords}
         turnsTaken={turnsTaken}
-        onCoordsSelect={setDestinationCoords}
+        onCoordsSelect={onCoordsSelect}
       />
       <Board
         turnsTaken={turnsTaken}
         quadrantSize={quadrantSize}
-        onCoordsSelect={setDestinationCoords}
+        onCoordsSelect={onCoordsSelect}
       />
     </KnightMovesStyled>
   )
