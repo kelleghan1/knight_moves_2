@@ -58,6 +58,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
           if (closest == null) {
             closest = iteration
+
             continue
           }
 
@@ -66,6 +67,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
           if (absoluteIterationCoordValue < absoluteClosestCoordValue) {
             closest = iteration
+
             continue
           }
 
@@ -82,6 +84,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
         if (validateFinalTurn(closest)) {
           turnsTaken.push(closest)
+
           return
         }
 
@@ -95,8 +98,11 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
             const nextPosition2 = { x: nextPosition.x + knightMoves[k].x, y: nextPosition.y + knightMoves[k].y }
 
             if (validateFinalTurn(nextPosition2)) {
-              turnsTaken.push(nextPosition)
-              turnsTaken.push(nextPosition2)
+              turnsTaken.push(
+                nextPosition,
+                nextPosition2
+              )
+
               return
             }
 
@@ -111,9 +117,12 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
               const nextPosition3 = { x: nextPosition2.x + knightMoves[n].x, y: nextPosition2.y + knightMoves[n].y }
 
               if (validateFinalTurn(nextPosition3)) {
-                turnsTaken.push(nextPosition)
-                turnsTaken.push(nextPosition2)
-                turnsTaken.push(nextPosition3)
+                turnsTaken.push(
+                  nextPosition,
+                  nextPosition2,
+                  nextPosition3
+                )
+
                 return
               }
             }
