@@ -32,6 +32,21 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
     coords.y === 0
   )
 
+  const applyTurnsTaken = (turnsTaken: CoordsType[]): void => {
+    const turnsReversed = turnsTaken.reverse()
+    const turnsArray: CoordsType[] = []
+
+    for (let i = 0; i < turnsReversed.length; i++) {
+      setTimeout(
+        () => {
+          turnsArray.push(turnsReversed[i])
+          setTurnsTaken([ ...turnsArray ])
+        },
+        i * 200
+      )
+    }
+  }
+
   useEffect(
     () => {
       if (!destinationCoords) return
@@ -136,7 +151,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
       takeTurn(destinationCoords)
 
-      setTurnsTaken(turnsTaken)
+      applyTurnsTaken(turnsTaken)
     },
     [ destinationCoords ]
   )
