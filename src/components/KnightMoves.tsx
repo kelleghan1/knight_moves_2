@@ -16,7 +16,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
   const [ destinationCoords, setDestinationCoords ] = useState(null)
   const [ turnsTaken, setTurnsTaken ] = useState([])
 
-  const moves = [
+  const knightMoves = [
     { x: 1, y: 2 },
     { x: 2, y: 1 },
     { x: 2, y: -1 },
@@ -27,85 +27,94 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
     { x: -1, y: 2 }
   ]
 
+  const validateFinalTurn = (coords: CoordsType): boolean => (
+    coords.x === 0 &&
+    coords.y === 0
+  )
+
   useEffect(
     () => {
       if (!destinationCoords) return
 
       const turnsTaken = [ destinationCoords ]
 
-      const start = (d: CoordsType): void => {
-        const possibleMoves = []
-        const closestArr = []
+      const takeTurn = (currentPosition: CoordsType): void => {
+        const nextPositions = []
         let closest = null
 
-        if (d.x === 0 && d.y === 0) {
-          return
-        }
+        if (validateFinalTurn(currentPosition)) return
 
-        // CREATE NEW POSITIONS -----------------
-
-        for (let i = 0; i < moves.length; i++) {
-          possibleMoves.push({
-            x: d.x + moves[i].x,
-            y: d.y + moves[i].y
+        // CREATE NEW POSITIONS
+        for (let i = 0; i < knightMoves.length; i++) {
+          nextPositions.push({
+            x: currentPosition.x + knightMoves[i].x,
+            y: currentPosition.y + knightMoves[i].y
           })
         }
 
-        // FIND CLOSEST -----------------
+        // FIND CLOSEST
+        for (let i = 0; i < nextPositions.length; i++) {
+          const iteration = nextPositions[i]
 
-        for (let b = 0; b < possibleMoves.length; b++) {
-          if (closest == null || (Math.abs(0 - possibleMoves[b].x) + Math.abs(0 - possibleMoves[b].y) <= (Math.abs(0 - closest.x) + Math.abs(0 - closest.y)))) {
-            closest = possibleMoves[b]
+          if (closest == null) {
+            closest = iteration
+            continue
+          }
+
+          const absoluteIterationCoordValue = Math.abs(iteration.x) + Math.abs(iteration.y)
+          const absoluteClosestCoordValue = Math.abs(closest.x) + Math.abs(closest.y)
+
+          if (absoluteIterationCoordValue < absoluteClosestCoordValue) {
+            closest = iteration
+            continue
+          }
+
+          const absoluteIterationCoordRatio = Math.abs((Math.abs(iteration.x) - Math.abs(iteration.y)))
+          const absoluteClosestCoordRatio = Math.abs(Math.abs(closest.x) - Math.abs(closest.y))
+
+          if (
+            absoluteIterationCoordValue === absoluteClosestCoordValue &&
+            absoluteIterationCoordRatio < absoluteClosestCoordRatio
+          ) {
+            closest = iteration
           }
         }
-        for (let u = 0; u < possibleMoves.length; u++) {
-          if ((Math.abs(0 - possibleMoves[u].x) + Math.abs(0 - possibleMoves[u].y) === (Math.abs(0 - closest.x) + Math.abs(0 - closest.y)))) {
-            closestArr.push(possibleMoves[u])
-          }
-        }
-        for (let q = 0; q < closestArr.length; q++) {
-          if (Math.abs((Math.abs(closestArr[q].x) - Math.abs(closestArr[q].y))) < Math.abs((Math.abs(closest.x) - Math.abs(closest.y)))) {
-            closest = closestArr[q]
-          }
+
+        if (validateFinalTurn(closest)) {
+          turnsTaken.push(closest)
+          return
         }
 
-        // CHECK 3 STEPS AHEAD -----------------
+        // CHECK 3 STEPS AHEAD
+        for (let j = 0; j < nextPositions.length; j++) {
+          const nextPosition = nextPositions[j]
+          const nextPositions2 = []
 
-        for (let j = 0; j < possibleMoves.length; j++) {
-          if (closest.x === 0 && closest.y === 0) {
-            turnsTaken.push(closest)
-            return
-          } else {
-            const tempPos = []
+          // CREATE NEW POSITIONS 2
+          for (let k = 0; k < knightMoves.length; k++) {
+            const nextPosition2 = { x: nextPosition.x + knightMoves[k].x, y: nextPosition.y + knightMoves[k].y }
 
-            // CREATE NEW POSITIONS 2 -----------------
-
-            for (let k = 0; k < moves.length; k++) {
-              tempPos.push({ x: possibleMoves[j].x + moves[k].x, y: possibleMoves[j].y + moves[k].y })
+            if (validateFinalTurn(nextPosition2)) {
+              turnsTaken.push(nextPosition)
+              turnsTaken.push(nextPosition2)
+              return
             }
 
-            for (let l = 0; l < tempPos.length; l++) {
-              if (tempPos[l].x === 0 && tempPos[l].y === 0) {
-                turnsTaken.push(possibleMoves[j])
-                turnsTaken.push(tempPos[l])
+            nextPositions2.push(nextPosition2)
+          }
+
+          for (let l = 0; l < nextPositions2.length; l++) {
+            const nextPosition2 = nextPositions2[l]
+
+            // CREATE NEW POSITIONS 3
+            for (let n = 0; n < knightMoves.length; n++) {
+              const nextPosition3 = { x: nextPosition2.x + knightMoves[n].x, y: nextPosition2.y + knightMoves[n].y }
+
+              if (validateFinalTurn(nextPosition3)) {
+                turnsTaken.push(nextPosition)
+                turnsTaken.push(nextPosition2)
+                turnsTaken.push(nextPosition3)
                 return
-              } else {
-                const tempPos2 = []
-
-                // CREATE NEW POSITIONS 3 -----------------
-
-                for (let n = 0; n < moves.length; n++) {
-                  tempPos2.push({ x: tempPos[l].x + moves[n].x, y: tempPos[l].y + moves[n].y })
-                }
-
-                for (let m = 0; m < tempPos2.length; m++) {
-                  if (tempPos2[m].x === 0 && tempPos2[m].y === 0) {
-                    turnsTaken.push(possibleMoves[j])
-                    turnsTaken.push(tempPos[l])
-                    turnsTaken.push(tempPos2[m])
-                    return
-                  }
-                }
               }
             }
           }
@@ -113,10 +122,10 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
         turnsTaken.push(closest)
 
-        start(closest)
+        takeTurn(closest)
       }
 
-      start(destinationCoords)
+      takeTurn(destinationCoords)
 
       setTurnsTaken(turnsTaken)
     },
