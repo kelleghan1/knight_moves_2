@@ -2,14 +2,14 @@ import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import {
   CoordsType,
-  HandleCoordsSelectType
+  SetDestinationCoordsType
 } from '../../types/common'
 import { SquareStyles } from './SquareStyles'
 
 const SquareStyled = styled.div`${SquareStyles}`
 
 interface SquarePropsType {
-  onCoordsSelect: HandleCoordsSelectType
+  onCoordsSelect: SetDestinationCoordsType
   activeCoords?: CoordsType
   xCoord: number
   yCoord: number

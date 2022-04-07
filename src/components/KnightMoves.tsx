@@ -47,7 +47,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
     }
   }
 
-  const calculateNextTurn = (
+  const calculateNextTurnsRecursively = (
     currentPosition: CoordsType,
     turnsTaken: CoordsType[]
   ): void => {
@@ -98,13 +98,13 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
     }
 
     // CHECK 3 STEPS AHEAD
-    for (let j = 0; j < nextPositions.length; j++) {
-      const nextPosition = nextPositions[j]
+    for (let i = 0; i < nextPositions.length; i++) {
+      const nextPosition = nextPositions[i]
       const nextPositions2 = []
 
       // CREATE NEW POSITIONS 2
-      for (let k = 0; k < knightMoves.length; k++) {
-        const nextPosition2 = { x: nextPosition.x + knightMoves[k].x, y: nextPosition.y + knightMoves[k].y }
+      for (let ii = 0; ii < knightMoves.length; ii++) {
+        const nextPosition2 = { x: nextPosition.x + knightMoves[ii].x, y: nextPosition.y + knightMoves[ii].y }
 
         if (validateFinalTurn(nextPosition2)) {
           turnsTaken.push(
@@ -118,8 +118,8 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
         nextPositions2.push(nextPosition2)
       }
 
-      for (let l = 0; l < nextPositions2.length; l++) {
-        const nextPosition2 = nextPositions2[l]
+      for (let ii = 0; ii < nextPositions2.length; ii++) {
+        const nextPosition2 = nextPositions2[ii]
 
         // CREATE NEW POSITIONS 3
         for (let n = 0; n < knightMoves.length; n++) {
@@ -140,7 +140,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
     turnsTaken.push(closest)
 
-    calculateNextTurn(closest, turnsTaken)
+    calculateNextTurnsRecursively(closest, turnsTaken)
   }
 
   useEffect(
@@ -149,7 +149,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
 
       const turnsTaken = [ destinationCoords ]
 
-      calculateNextTurn(destinationCoords, turnsTaken)
+      calculateNextTurnsRecursively(destinationCoords, turnsTaken)
 
       applyTurnsTaken(turnsTaken)
     },
@@ -160,6 +160,7 @@ export const KnightMoves: FunctionComponent<KnightMovesPropsType> = ({ quadrantS
     <KnightMovesStyled>
       <Header />
       <Menu
+        onClearTurnsTakenClick={setTurnsTaken}
         quadrantSize={quadrantSize}
         destinationCoords={destinationCoords}
         turnsTaken={turnsTaken}

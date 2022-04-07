@@ -5,9 +5,9 @@ export const MenuStyles = css`
   padding: 12px;
 
   .axis-input-wrapper,
-  .coord-submit-wrapper {
+  .coord-button-wrapper {
     flex-shrink: 1;
-    padding-right: 18px;
+    padding-right: 16px;
 
     & > label {
       padding: 6px;
@@ -27,7 +27,7 @@ export const MenuStyles = css`
     }
 
     & > input {
-      width: 30px;
+      width: 20px;
       border: 1px solid #e2e2e2;
     }
 
@@ -52,6 +52,7 @@ export const MenuStyles = css`
   .turn-count-wrapper {
     flex-grow: 1;
     text-align: right;
+    white-space: nowrap;
 
     & > label {
       padding: 6px;

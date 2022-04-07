@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import {
   CoordsType,
-  HandleCoordsSelectType,
+  SetDestinationCoordsType,
   QuadrantCoordsType
 } from '../../types/common'
 import { Quadrant } from '../quadrant/Quadrant'
@@ -11,7 +11,7 @@ import { BoardStyles } from './BoardStyles'
 const BoardStyled = styled.div`${BoardStyles}`
 
 interface BoardPropsType {
-  onCoordsSelect: HandleCoordsSelectType
+  onCoordsSelect: SetDestinationCoordsType
   quadrantSize: number
   turnsTaken: CoordsType[]
 }
@@ -35,10 +35,10 @@ export const Board: FunctionComponent<BoardPropsType> = ({
     }
   }
 
-  const quadrantA = {}
-  const quadrantB = {}
-  const quadrantC = {}
-  const quadrantD = {}
+  const quadrantAActiveCoords = {}
+  const quadrantBActiveCoords = {}
+  const quadrantCActiveCoords = {}
+  const quadrantDActiveCoords = {}
 
   for (let i = 0; i < turnsTaken.length; i++) {
     const activeCoord = turnsTaken[i]
@@ -48,7 +48,7 @@ export const Board: FunctionComponent<BoardPropsType> = ({
       activeCoord.y >= 0
     ) {
       modifyQuadrantActiveCoordsObject(
-        quadrantA,
+        quadrantAActiveCoords,
         activeCoord.x,
         activeCoord.y
       )
@@ -57,7 +57,7 @@ export const Board: FunctionComponent<BoardPropsType> = ({
       activeCoord.y >= 0
     ) {
       modifyQuadrantActiveCoordsObject(
-        quadrantB,
+        quadrantBActiveCoords,
         activeCoord.x,
         activeCoord.y
       )
@@ -66,13 +66,13 @@ export const Board: FunctionComponent<BoardPropsType> = ({
       activeCoord.y < 0
     ) {
       modifyQuadrantActiveCoordsObject(
-        quadrantC,
+        quadrantCActiveCoords,
         activeCoord.x,
         activeCoord.y
       )
     } else {
       modifyQuadrantActiveCoordsObject(
-        quadrantD,
+        quadrantDActiveCoords,
         activeCoord.x,
         activeCoord.y
       )
@@ -82,25 +82,25 @@ export const Board: FunctionComponent<BoardPropsType> = ({
   return (
     <BoardStyled>
       <Quadrant
-        quadrantActiveCoords={quadrantA}
+        quadrantActiveCoords={quadrantAActiveCoords}
         xNegative={true}
         onCoordsSelect={onCoordsSelect}
         quadrantSize={quadrantSize}
       />
       <Quadrant
-        quadrantActiveCoords={quadrantB}
+        quadrantActiveCoords={quadrantBActiveCoords}
         onCoordsSelect={onCoordsSelect}
         quadrantSize={quadrantSize}
       />
       <Quadrant
-        quadrantActiveCoords={quadrantC}
+        quadrantActiveCoords={quadrantCActiveCoords}
         xNegative={true}
         yNegative={true}
         onCoordsSelect={onCoordsSelect}
         quadrantSize={quadrantSize}
       />
       <Quadrant
-        quadrantActiveCoords={quadrantD}
+        quadrantActiveCoords={quadrantDActiveCoords}
         yNegative={true}
         onCoordsSelect={onCoordsSelect}
         quadrantSize={quadrantSize}

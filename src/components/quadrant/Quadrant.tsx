@@ -6,7 +6,7 @@ import React,
 import styled from 'styled-components'
 import {
   CoordsType,
-  HandleCoordsSelectType,
+  SetDestinationCoordsType,
   QuadrantCoordsType
 } from '../../types/common'
 import { Square } from '../square/Square'
@@ -15,7 +15,7 @@ import { QuadrantStyles } from './QuadrantStyles'
 const QuadrantStyled = styled.div`${QuadrantStyles}`
 
 interface QuadrantPropsType {
-  onCoordsSelect: HandleCoordsSelectType
+  onCoordsSelect: SetDestinationCoordsType
   activeCoords?: CoordsType
   quadrantSize: number
   xNegative?: boolean

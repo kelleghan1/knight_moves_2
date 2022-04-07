@@ -9,8 +9,9 @@ import React,
 import styled from 'styled-components'
 import {
   CoordsType,
-  HandleCoordsSelectType,
-  QuadrantSizeEnumType
+  SetTurnsTakenType,
+  QuadrantSizeEnumType,
+  SetDestinationCoordsType
 } from '../../types/common'
 import {
   trueVal,
@@ -23,9 +24,10 @@ import { MenuStyles } from './MenuStyles'
 const MenuStyled = styled.form`${MenuStyles}`
 
 interface MenuPropsType {
-  onCoordsSelect: HandleCoordsSelectType
+  onCoordsSelect: SetDestinationCoordsType
   destinationCoords?: CoordsType
   turnsTaken?: CoordsType[]
+  onClearTurnsTakenClick: SetTurnsTakenType
   quadrantSize: QuadrantSizeEnumType
 }
 
@@ -33,7 +35,8 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
   onCoordsSelect,
   destinationCoords,
   turnsTaken,
-  quadrantSize
+  quadrantSize,
+  onClearTurnsTakenClick
 }) => {
   const [ x, setX ] = useState('')
   const [ y, setY ] = useState('')
@@ -59,7 +62,7 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
     coordString === '' ||
     (
       validateStringNumberInput(coordString) &&
-      coordString.split('-').join('').length < 4
+      coordString.split('-').join('').length < 3
     )
   )
 
@@ -95,6 +98,15 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
         })
       }
     }
+  }
+
+  const handleClearClick: MouseEventHandler<HTMLButtonElement> = event => {
+    event.preventDefault()
+
+    onClearTurnsTakenClick([])
+    onCoordsSelect(null)
+    setX('')
+    setY('')
   }
 
   const validateCoordInputs = (): boolean => (
@@ -142,13 +154,18 @@ export const Menu: FunctionComponent<MenuPropsType> = ({
           type='text'
         />
       </div>
-      <div className='coord-submit-wrapper'>
+      <div className='coord-button-wrapper'>
         <button
           disabled={!validateCoordInputs()}
           onClick={handleCoordSubmit}
           type='submit'
         >
           Submit
+        </button>
+      </div>
+      <div className='coord-button-wrapper'>
+        <button onClick={handleClearClick} >
+          Clear
         </button>
       </div>
       <div className='turn-count-wrapper'>

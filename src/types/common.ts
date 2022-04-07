@@ -3,7 +3,9 @@ export interface CoordsType {
   y: number
 }
 
-export type HandleCoordsSelectType = (coords: CoordsType) => void
+export type SetDestinationCoordsType = (coords: CoordsType) => void
+
+export type SetTurnsTakenType = (coords: CoordsType[]) => void
 
 export interface QuadrantCoordsType {
   [key: number]: { y: { [key: number]: boolean } }
