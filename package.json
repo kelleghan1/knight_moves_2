@@ -1,7 +1,7 @@
 {
-  "name": "knight-moves-2",
+  "name": "knight-moves",
   "version": "1.0.0",
-  "description": "",
+  "description": "A package for calculating knight moves",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,11 @@
     "lint": "eslint src/*",
     "lint:fix": "eslint src/* --fix"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kelleghan1/knight_moves_2"
+  },
+  "author": "Kelleghan Design",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.17.8",
