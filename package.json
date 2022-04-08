@@ -1,12 +1,16 @@
 {
   "name": "knight-moves",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A package for calculating knight moves",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "build": "rm -rf dist && webpack --config webpack.prod.js",
+    "build-lib": "npm run build && rm -rf packs && mkdir packs && npm pack --pack-destination './packs' && node 'scripts/buildLib.js'",
     "lint": "eslint src/*",
     "lint:fix": "eslint src/* --fix"
   },
@@ -15,7 +19,7 @@
     "url": "https://github.com/kelleghan1/knight_moves_2"
   },
   "author": "Kelleghan Design",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
@@ -32,6 +36,7 @@
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-react": "^7.22.0",
     "html-webpack-plugin": "^5.5.0",
+    "knight-moves": "file:packs/knight-moves-1.0.1.tgz",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "styled-components": "^5.3.5",

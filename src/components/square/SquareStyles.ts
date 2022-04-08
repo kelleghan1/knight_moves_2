@@ -50,7 +50,7 @@ export const SquareStyles = css`
     box-sizing: border-box;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 730px) {
     .square-coords {
       font-size: 4px;
     }
