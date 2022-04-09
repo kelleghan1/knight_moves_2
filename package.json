@@ -1,6 +1,6 @@
 {
   "name": "knight-moves",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A package for calculating knight moves",
   "main": "./dist/index.js",
   "files": [
@@ -36,7 +36,7 @@
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-react": "^7.22.0",
     "html-webpack-plugin": "^5.5.0",
-    "knight-moves": "file:packs/knight-moves-1.0.1.tgz",
+    "knight-moves": "file:packs/knight-moves-1.0.2.tgz",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "styled-components": "^5.3.5",
